@@ -15,8 +15,8 @@ const GradeList = () => {
             <th scope="col">Course</th>
             <th scope="col">Grade</th>
             <th scope="col">Term</th>
-            <th scope="col">type</th>
-            <th scope="col">letterGrade</th>
+            <th scope="col">Type</th>
+            <th scope="col">Letter Grade</th>
             <th scope="col">GPA</th>
             <th scope="col">Weighted GPA</th>
             <th scope="col">Action</th>
