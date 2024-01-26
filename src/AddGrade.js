@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Context } from "./App.js";
+import { useForm } from "react-hook-form";
 
 const AddGrade = () => {
-  const [course, setCourse] = useState("");
+  //const [course, setCourse] = useState("");
   const [grade, setGrade] = useState("9");
   const [term, setTerm] = useState("Fall");
   const [type, setType] = useState("Regular");
@@ -10,11 +11,18 @@ const AddGrade = () => {
 
   const { addGrade } = useContext(Context);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const handleFormData = (data) => {
+    console.log("Data", data);
     const newGrade = {
       id: Math.floor(Math.random() * 1000000),
-      course: course,
+      course: data.course,
       grade: grade,
       term: term,
       type: type,
@@ -22,25 +30,36 @@ const AddGrade = () => {
     };
 
     addGrade(newGrade);
-    setCourse("");
+    //setCourse("");
     setGrade("9");
     setType("Regular");
     setTerm("Fall");
     setLetterGrade("A");
+    reset();
+  };
+  const handleError = (errors) => {
+    console.log("Error ", errors);
+  };
+
+  const registerOptions = {
+    course: { required: "Course is required" },
   };
 
   return (
     <>
       <h3>Add new grade</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(handleFormData, handleError)}>
         <div className="form-control">
           <label htmlFor="text">Course</label>
           <input
+            name="course"
             type="text"
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
-            placeholder="Enter course..."
+            placeholder="Enter grade..."
+            {...register("course", registerOptions.course)}
           />
+          <small className="text-danger">
+            {errors?.course && errors.course.message}
+          </small>
         </div>
         <div className="form-control">
           <label htmlFor="text">Grade</label>
@@ -139,4 +158,37 @@ export default AddGrade;
             onChange={(e) => setLetterGrade(e.target.value)}
             placeholder="Enter letter grade..."
           />
+
+          <form onSubmit={onSubmit}>
+        <div className="form-control">
+          <label htmlFor="text">Course</label>
+          <input
+            name="course"
+            type="text"
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            placeholder="Enter course..."
+          />
+        </div>
+*/
+
+/*
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const newGrade = {
+      id: Math.floor(Math.random() * 1000000),
+      course: course,
+      grade: grade,
+      term: term,
+      type: type,
+      letterGrade: letterGrade,
+    };
+
+    addGrade(newGrade);
+    setCourse("");
+    setGrade("9");
+    setType("Regular");
+    setTerm("Fall");
+    setLetterGrade("A");
+  };
 */
